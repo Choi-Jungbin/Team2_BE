@@ -24,6 +24,7 @@ public class AlbumController {
     // 앨범 생성기능 POST "/albums"
     @PostMapping
     public ResponseEntity<ApiUtils.ApiResult> createAlbum(@RequestBody @Valid AlbumCreateRequestDTO requestDTO, Error errors, @AuthenticationPrincipal CustomUserDetails userDetails) throws IOException {
+
         Long userId = userDetails.getUser().getId();
         Album newAlbum = albumService.createAlbum(requestDTO);
         // album을 생성하는 유저를 albumMember로 추가
@@ -32,7 +33,7 @@ public class AlbumController {
         return ResponseEntity.ok(ApiUtils.success(null));
     }
 
-    // 앨범 수정 기능 PUT "/albums/{albumId}"
+    // 앨범 수정 기능 PUT "/albums/"
     @PutMapping("/{albumId}")
     public ResponseEntity<ApiUtils.ApiResult> updateAlbum (@RequestBody AlbumUpdaterequestDTO requestDTO, @PathVariable Long albumId, @AuthenticationPrincipal CustomUserDetails userDetails){
         Long userId = userDetails.getUser().getId();
