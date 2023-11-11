@@ -46,12 +46,14 @@ public class AuthService {
 
     private KakaoTokenDTO getKakaoAccessToken(String code) {
         try {
-            return kakaoAuthClient.getToken(URI.create(kakaoAuthProperties.getTokenUrl()),
+            KakaoTokenDTO userToken = kakaoAuthClient.getToken(URI.create(kakaoAuthProperties.getTokenUrl()),
                     kakaoAuthProperties.getRestApiKey(),
                     kakaoAuthProperties.getClientSecret(),
                     kakaoAuthProperties.getRedirectUrl(),
                     code,
                     AUTHORIZATION_CODE);
+            log.info(userToken.toString());
+            return userToken;
         } catch (HttpStatusCodeException e) {
             switch (e.getStatusCode().value()) {
                 case 400:
