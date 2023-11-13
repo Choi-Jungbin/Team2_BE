@@ -27,20 +27,20 @@ public class AlbumMemberController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> addMembers(@PathVariable Long albumId, @AuthenticationPrincipal CustomUserDetails userDetails) {
+    public ResponseEntity<ApiUtils.ApiResult<Void>> addMembers(@PathVariable Long albumId, @AuthenticationPrincipal CustomUserDetails userDetails) {
         Long userId = userDetails.getUser().getId();
         albumMemberService.addMembers(userId, albumId);
 
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(ApiUtils.success(null));
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> deleteMembers(@PathVariable Long albumId, @AuthenticationPrincipal CustomUserDetails userDetails) {
+    public ResponseEntity<ApiUtils.ApiResult<Void>> deleteMembers(@PathVariable Long albumId, @AuthenticationPrincipal CustomUserDetails userDetails) {
         Long userId = userDetails.getUser().getId();
         albumMemberService.checkMembership(userId, albumId);
 
         albumMemberService.deleteMembers(userId, albumId);
 
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(ApiUtils.success(null));
     }
 }
