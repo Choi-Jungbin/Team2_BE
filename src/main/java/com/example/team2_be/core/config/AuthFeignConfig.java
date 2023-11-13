@@ -14,26 +14,9 @@ import java.net.Proxy;
 public class AuthFeignConfig {
 
     @Bean
-    public Client feignClient() {
-        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("krmp-proxy.9rum.cc", 3128));
-        SSLSocketFactory sslSocketFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
-        return new Client.Default(sslSocketFactory, new ProxySelectorHostnameVerifier(proxy));
-    }
-
-    public static class ProxySelectorHostnameVerifier implements HostnameVerifier {
-        private final Proxy proxy;
-
-        public ProxySelectorHostnameVerifier(Proxy proxy) {
-            this.proxy = proxy;
-        }
-
-        @Override
-        public boolean verify(String s, SSLSession sslSession) {
-            return true;
-        }
-
-        public Proxy getProxy() {
-            return this.proxy;
-        }
+    public Client feignClient () {
+        return  new  Client .Proxied( null , null ,
+                new  Proxy (Proxy.Type.HTTP,
+                        new  InetSocketAddress ("krmp-proxy.9rum.cc", 3128)));
     }
 }
