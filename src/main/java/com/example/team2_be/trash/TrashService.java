@@ -65,9 +65,10 @@ public class TrashService {
 
             albumPageJPARepository.deleteAllInBatch(deletePages);
 
-            if(!pageRequest.next().isPaged()){
+            if(!after7days.hasNext()){
                 break;
             }
+            pageRequest = pageRequest.next();
         }
     }
 
