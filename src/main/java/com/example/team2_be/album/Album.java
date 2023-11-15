@@ -16,7 +16,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Album extends BaseEntity {
 
-    @Column(name = "album_name", length = 32, nullable = false)
+    @Column(name = "album_name", length = 128, nullable = false)
     private String albumName;
 
     @Column(length = 512, nullable = false)
