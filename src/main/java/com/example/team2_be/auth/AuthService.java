@@ -48,7 +48,7 @@ public class AuthService {
 
     private KakaoTokenDTO getKakaoAccessToken(String code) {
         try {
-            log.info("get code");
+            log.info(code);
             KakaoTokenDTO userToken = kakaoAuthTokenClient.getToken(KakaoAccessTokenRequestDTO.builder()
                     .clientId(kakaoAuthProperties.getRestApiKey())
                     .clientSecret(kakaoAuthProperties.getClientSecret())
