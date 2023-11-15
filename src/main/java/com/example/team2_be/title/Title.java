@@ -15,7 +15,7 @@ import javax.persistence.*;
 @ToString
 @NoArgsConstructor
 public class Title extends BaseEntity {
-    @Column(name = "title_name", length = 16, nullable = false)
+    @Column(name = "title_name", length = 128, nullable = false)
     private String titleName;
 
     @OneToOne(fetch = FetchType.LAZY)
