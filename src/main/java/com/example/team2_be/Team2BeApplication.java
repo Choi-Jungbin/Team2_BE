@@ -13,6 +13,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class Team2BeApplication {
 
 	public static void main(String[] args) {
+		System.setProperty("http.proxyHost", "krmp-proxy.9rum.cc");
+		System.setProperty("http.proxyPort", "3128");
 		SpringApplication.run(Team2BeApplication.class, args);
 	}
 
