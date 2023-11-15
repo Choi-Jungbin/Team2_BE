@@ -4,6 +4,7 @@ import com.example.team2_be.auth.dto.UserAccountDTO;
 import com.example.team2_be.auth.dto.google.GoogleAccessTokenRequestDTO;
 import com.example.team2_be.auth.dto.google.GoogleAccountDTO;
 import com.example.team2_be.auth.dto.google.GoogleTokenDTO;
+import com.example.team2_be.auth.dto.kakao.KakaoAccessTokenRequestDTO;
 import com.example.team2_be.auth.dto.kakao.KakaoAccountDTO;
 import com.example.team2_be.auth.dto.kakao.KakaoTokenDTO;
 import com.example.team2_be.core.error.exception.*;
@@ -34,6 +35,7 @@ public class AuthService {
     private final String JWT_TOKEN = "JWT_TOKEN:";
     private final String AUTHORIZATION_CODE = "authorization_code";
     private final KakaoAuthClient kakaoAuthClient;
+    private final KakaoAuthTokenClient kakaoAuthTokenClient;
     private final GoogleAuthClient googleAuthClient;
     private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
@@ -47,12 +49,12 @@ public class AuthService {
     private KakaoTokenDTO getKakaoAccessToken(String code) {
         try {
             log.info("get code");
-            KakaoTokenDTO userToken = kakaoAuthClient.getToken(URI.create(kakaoAuthProperties.getTokenUrl()),
-                    kakaoAuthProperties.getRestApiKey(),
-                    kakaoAuthProperties.getClientSecret(),
-                    kakaoAuthProperties.getRedirectUrl(),
-                    code,
-                    AUTHORIZATION_CODE);
+            KakaoTokenDTO userToken = kakaoAuthTokenClient.getToken(KakaoAccessTokenRequestDTO.builder()
+                    .clientId(kakaoAuthProperties.getRestApiKey())
+                    .clientSecret(kakaoAuthProperties.getClientSecret())
+                    .code(code)
+                    .redirectUri(kakaoAuthProperties.getRedirectUrl())
+                    .grantType(AUTHORIZATION_CODE).build());
             log.info(userToken.toString());
             return userToken;
         } catch (HttpStatusCodeException e) {
@@ -79,7 +81,7 @@ public class AuthService {
         KakaoAccountDTO kakaoAccount = null;
 
         try {
-            kakaoAccount = kakaoAuthClient.getInfo(URI.create(kakaoAuthProperties.getUserApiUrl()),
+            kakaoAccount = kakaoAuthClient.getInfo(
                     userToken.getTokenType() + " " + userToken.getAccessToken()).getKakaoAccount();
             log.info("get kakao account");
         } catch (HttpStatusCodeException e) {

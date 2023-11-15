@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
-@FeignClient(name = "kakaoAuth", configuration = AuthFeignConfig.class)
+@FeignClient(name = "kakaoAuth", url = "${kakao.user-api-url}", configuration = AuthFeignConfig.class)
 public interface KakaoAuthClient {
     @GetMapping
-    KakaoInfoDTO getInfo(URI baseUrl, @RequestHeader("Authorization") String accessToken);
+    KakaoInfoDTO getInfo(@RequestHeader("Authorization") String accessToken);
 
-    @PostMapping
-    KakaoTokenDTO getToken(URI baseUrl, @RequestParam("client_id") String restApiKey,
-                                   @RequestParam("client_secret") String secretKey,
-                                   @RequestParam("redirect_uri") String redirectUrl,
-                                   @RequestParam("code") String code,
-                                   @RequestParam("grant_type") String grantType);
+//    @PostMapping
+//    KakaoTokenDTO getToken(URI baseUrl, @RequestParam("client_id") String restApiKey,
+//                           @RequestParam("client_secret") String secretKey,
+//                           @RequestParam("redirect_uri") String redirectUrl,
+//                           @RequestParam("code") String code,
+//                           @RequestParam("grant_type") String grantType);
 }
