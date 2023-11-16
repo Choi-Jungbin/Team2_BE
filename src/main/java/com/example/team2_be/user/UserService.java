@@ -39,26 +39,21 @@ public class UserService{
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public User getUser(UserAccountDTO userAccount ) {
-        try {
+        // DB 안의 user 정보 확인
+        User user = userJPARepository.findByEmail(userAccount.getEmail());
 
-            // DB 안의 user 정보 확인
-            User user = userJPARepository.findByEmail(userAccount.getEmail());
-
-            if(user == null){
-                User newUser = User.builder()
-                        .email(userAccount.getEmail())
-                        .nickname(userAccount.getNickname())
-                        .image(DEFAULT_IMAGE_URL)
-                        .role(Role.ROLE_USER)
-                        .build();
-                userJPARepository.save(newUser);
-                return newUser;
-            }
-            return user;
-        } catch (Exception e){
-            log.info(String.valueOf(e));
-            throw new InternalSeverErrorException("유저 정보 조회 오류입니다.");
+        if(user == null){
+            User newUser = User.builder()
+                    .email(userAccount.getEmail())
+                    .nickname(userAccount.getNickname())
+                    .image(DEFAULT_IMAGE_URL)
+                    .role(Role.ROLE_USER)
+                    .build();
+            userJPARepository.save(newUser);
+            log.info(newUser.toString());
+            return newUser;
         }
+        return user;
     }
 
 //    public User saveUser(UserAccountDTO userAccount){
