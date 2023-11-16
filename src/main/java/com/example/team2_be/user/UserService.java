@@ -25,14 +25,11 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class UserService implements UserSelfService {
+public class UserService{
     private final UserJPARepository userJPARepository;
     private final RewardJPARepository rewardJPARepository;
     private final ProgressJPARepository progressJPARepository;
     private final CollectionJPARepository collectionJPARepository;
-
-    @Autowired
-    private UserSelfService userService;
 
     public static final String DEFAULT_IMAGE_URL = "";
 
@@ -42,12 +39,11 @@ public class UserService implements UserSelfService {
         User user = userJPARepository.findByEmail(userAccount.getEmail());
 
         if(user == null){
-            return userService.saveUser(userAccount);
+            return saveUser(userAccount);
         }
         return user;
     }
-
-    @Override
+    
     @Transactional
     public User saveUser(UserAccountDTO userAccount){
         // 없을 경우 생성 및 추가
@@ -106,8 +102,4 @@ public class UserService implements UserSelfService {
 
         findUser.updateTitle(findCollection.getTitle().getTitleName());
     }
-}
-
-interface UserSelfService {
-    User saveUser(UserAccountDTO userAccount);
 }
