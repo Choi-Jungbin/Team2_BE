@@ -51,6 +51,7 @@ dependencies {
 	implementation("org.bouncycastle:bcprov-jdk15on:1.64")
 
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+	implementation 'io.github.openfeign:feign-okhttp'
 
 	//swagger
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'
