@@ -40,23 +40,30 @@ public class UserService{
         User user = userJPARepository.findByEmail(userAccount.getEmail());
 
         if(user == null){
-            return saveUser(userAccount);
-        }
-        return user;
-    }
-
-    public User saveUser(UserAccountDTO userAccount){
-        // 없을 경우 생성 및 추가
-        User newUser = User.builder()
+            User newUser = User.builder()
                 .email(userAccount.getEmail())
                 .nickname(userAccount.getNickname())
                 .image(DEFAULT_IMAGE_URL)
                 .role(Role.ROLE_USER)
                 .build();
-        userJPARepository.save(newUser);
-
-        return newUser;
+            userJPARepository.save(newUser);
+            return newUser;
+        }
+        return user;
     }
+
+//    public User saveUser(UserAccountDTO userAccount){
+//        // 없을 경우 생성 및 추가
+//        User newUser = User.builder()
+//                .email(userAccount.getEmail())
+//                .nickname(userAccount.getNickname())
+//                .image(DEFAULT_IMAGE_URL)
+//                .role(Role.ROLE_USER)
+//                .build();
+//        userJPARepository.save(newUser);
+//
+//        return newUser;
+//    }
 
     public UserInfoFindResponseDTO findUserInfo(Long id) {
         User findUser = userJPARepository.findById(id)
