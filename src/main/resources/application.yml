@@ -60,5 +60,4 @@ logging:
           EC2MetadataUtils : error
       example:
         team2_be:
-          auth:
-            KakaoAuthTokenClient: DEBUG
+          auth: DEBUG
