@@ -5,6 +5,8 @@ server:
       force: true
   port: 8080
 spring:
+  main:
+    allow-circular-references: true
   jpa:
     hibernate:
       ddl-auto: create
