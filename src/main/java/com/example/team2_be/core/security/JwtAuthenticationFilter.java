@@ -52,14 +52,13 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             String email = decodedJWT.getClaim("sub").asString();
             Long id = decodedJWT.getClaim("id").asLong();
             UserDetails myUserDetails = customUserDetailsService.loadUserByUsername(email);
-            log.info(myUserDetails.getUsername());
-            log.info(myUserDetails.getPassword());
             Authentication authentication =
                     new UsernamePasswordAuthenticationToken(
                             myUserDetails,
-                            myUserDetails.getPassword(),
+                            null,
                             myUserDetails.getAuthorities()
                     );
+            log.info(authentication.toString());
             String key = JWT_TOKEN + id;
             Object storedToken = redisTemplate.opsForValue().get(key);
 
