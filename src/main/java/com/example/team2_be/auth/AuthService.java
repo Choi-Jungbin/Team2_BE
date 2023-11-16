@@ -4,7 +4,6 @@ import com.example.team2_be.auth.dto.UserAccountDTO;
 import com.example.team2_be.auth.dto.google.GoogleAccessTokenRequestDTO;
 import com.example.team2_be.auth.dto.google.GoogleAccountDTO;
 import com.example.team2_be.auth.dto.google.GoogleTokenDTO;
-import com.example.team2_be.auth.dto.kakao.KakaoAccessTokenRequestDTO;
 import com.example.team2_be.auth.dto.kakao.KakaoAccountDTO;
 import com.example.team2_be.auth.dto.kakao.KakaoTokenDTO;
 import com.example.team2_be.core.error.exception.*;
