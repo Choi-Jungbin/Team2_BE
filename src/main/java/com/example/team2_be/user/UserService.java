@@ -1,6 +1,7 @@
 package com.example.team2_be.user;
 
 
+import com.example.team2_be.core.error.exception.InternalSeverErrorException;
 import com.example.team2_be.core.error.exception.NotFoundException;
 import com.example.team2_be.auth.dto.UserAccountDTO;
 import com.example.team2_be.reward.Reward;
@@ -14,6 +15,7 @@ import com.example.team2_be.user.dto.UserInfoUpdateRequestDTO;
 import com.example.team2_be.user.dto.UserRewardFindResponseDTO;
 import com.example.team2_be.user.dto.UserTitleFindResponseDTO;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -36,20 +39,26 @@ public class UserService{
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public User getUser(UserAccountDTO userAccount ) {
-        // DB 안의 user 정보 확인
-        User user = userJPARepository.findByEmail(userAccount.getEmail());
+        try {
 
-        if(user == null){
-            User newUser = User.builder()
-                .email(userAccount.getEmail())
-                .nickname(userAccount.getNickname())
-                .image(DEFAULT_IMAGE_URL)
-                .role(Role.ROLE_USER)
-                .build();
-            userJPARepository.save(newUser);
-            return newUser;
+            // DB 안의 user 정보 확인
+            User user = userJPARepository.findByEmail(userAccount.getEmail());
+
+            if(user == null){
+                User newUser = User.builder()
+                        .email(userAccount.getEmail())
+                        .nickname(userAccount.getNickname())
+                        .image(DEFAULT_IMAGE_URL)
+                        .role(Role.ROLE_USER)
+                        .build();
+                userJPARepository.save(newUser);
+                return newUser;
+            }
+            return user;
+        } catch (Exception e){
+            log.info(String.valueOf(e));
+            throw new InternalSeverErrorException("유저 정보 조회 오류입니다.");
         }
-        return user;
     }
 
 //    public User saveUser(UserAccountDTO userAccount){
