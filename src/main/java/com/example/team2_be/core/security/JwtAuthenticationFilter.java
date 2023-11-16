@@ -52,10 +52,11 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             String email = decodedJWT.getClaim("sub").asString();
             Long id = decodedJWT.getClaim("id").asLong();
             UserDetails myUserDetails = customUserDetailsService.loadUserByUsername(email);
+            log.info(myUserDetails.getUsername());
             Authentication authentication =
                     new UsernamePasswordAuthenticationToken(
                             myUserDetails,
-                            myUserDetails.getPassword(),
+//                            myUserDetails.getPassword(),
                             myUserDetails.getAuthorities()
                     );
             String key = JWT_TOKEN + id;
