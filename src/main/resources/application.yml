@@ -58,4 +58,7 @@ logging:
       amazonaws:
         util:
           EC2MetadataUtils : error
-
+      example:
+        team2_be:
+          auth:
+            KakaoAuthTokenClient: DEBUG
