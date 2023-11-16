@@ -35,7 +35,6 @@ public class AuthService {
     private final String JWT_TOKEN = "JWT_TOKEN:";
     private final String AUTHORIZATION_CODE = "authorization_code";
     private final KakaoAuthClient kakaoAuthClient;
-    private final KakaoAuthTokenClient kakaoAuthTokenClient;
     private final GoogleAuthClient googleAuthClient;
     private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
@@ -49,12 +48,12 @@ public class AuthService {
     private KakaoTokenDTO getKakaoAccessToken(String code) {
         try {
             log.info(code);
-            KakaoTokenDTO userToken = kakaoAuthTokenClient.getToken(KakaoAccessTokenRequestDTO.builder()
-                    .clientId(kakaoAuthProperties.getRestApiKey())
-                    .clientSecret(kakaoAuthProperties.getClientSecret())
-                    .code(code)
-                    .redirectUri(kakaoAuthProperties.getRedirectUrl())
-                    .grantType(AUTHORIZATION_CODE).build());
+            KakaoTokenDTO userToken = kakaoAuthClient.getToken(URI.create(kakaoAuthProperties.getTokenUrl()),
+                    kakaoAuthProperties.getRestApiKey(),
+                    kakaoAuthProperties.getClientSecret(),
+                    kakaoAuthProperties.getRedirectUrl(),
+                    code,
+                    AUTHORIZATION_CODE);
             log.info(userToken.toString());
             return userToken;
         } catch (HttpStatusCodeException e) {

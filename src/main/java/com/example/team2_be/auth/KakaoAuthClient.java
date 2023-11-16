@@ -13,10 +13,10 @@ public interface KakaoAuthClient {
     @GetMapping
     KakaoInfoDTO getInfo(@RequestHeader("Authorization") String accessToken);
 
-//    @PostMapping
-//    KakaoTokenDTO getToken(URI baseUrl, @RequestParam("client_id") String restApiKey,
-//                           @RequestParam("client_secret") String secretKey,
-//                           @RequestParam("redirect_uri") String redirectUrl,
-//                           @RequestParam("code") String code,
-//                           @RequestParam("grant_type") String grantType);
+    @PostMapping
+    KakaoTokenDTO getToken(URI baseUrl, @RequestParam("client_id") String restApiKey,
+                           @RequestParam("client_secret") String secretKey,
+                           @RequestParam("redirect_uri") String redirectUrl,
+                           @RequestParam("code") String code,
+                           @RequestParam("grant_type") String grantType);
 }
