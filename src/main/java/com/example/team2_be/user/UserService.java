@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public class UserService{
 
     public static final String DEFAULT_IMAGE_URL = "";
 
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public User getUser(UserAccountDTO userAccount ) {
         // DB 안의 user 정보 확인
         User user = userJPARepository.findByEmail(userAccount.getEmail());
@@ -44,7 +45,6 @@ public class UserService{
         return user;
     }
     
-    @Transactional
     public User saveUser(UserAccountDTO userAccount){
         // 없을 경우 생성 및 추가
         User newUser = User.builder()
