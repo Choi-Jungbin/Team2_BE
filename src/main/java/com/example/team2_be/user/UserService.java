@@ -30,9 +30,7 @@ public class UserService implements UserSelfService {
     private final RewardJPARepository rewardJPARepository;
     private final ProgressJPARepository progressJPARepository;
     private final CollectionJPARepository collectionJPARepository;
-
-    @Autowired
-    private UserSelfService userService;
+    private final UserSelfService userService;
 
     public static final String DEFAULT_IMAGE_URL = "";
 
