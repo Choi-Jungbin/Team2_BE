@@ -14,6 +14,7 @@ import com.example.team2_be.user.dto.UserInfoUpdateRequestDTO;
 import com.example.team2_be.user.dto.UserRewardFindResponseDTO;
 import com.example.team2_be.user.dto.UserTitleFindResponseDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,11 +25,14 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class UserService {
+public class UserService implements UserSelfService {
     private final UserJPARepository userJPARepository;
     private final RewardJPARepository rewardJPARepository;
     private final ProgressJPARepository progressJPARepository;
     private final CollectionJPARepository collectionJPARepository;
+
+    @Autowired
+    private UserSelfService userService;
 
     public static final String DEFAULT_IMAGE_URL = "";
 
@@ -38,12 +42,14 @@ public class UserService {
         User user = userJPARepository.findByEmail(userAccount.getEmail());
 
         if(user == null){
-            return saveUser(userAccount);
+            return userService.saveUser(userAccount);
         }
         return user;
     }
 
-    private User saveUser(UserAccountDTO userAccount){
+    @Override
+    @Transactional
+    public User saveUser(UserAccountDTO userAccount){
         // 없을 경우 생성 및 추가
         User newUser = User.builder()
                 .email(userAccount.getEmail())
@@ -100,4 +106,8 @@ public class UserService {
 
         findUser.updateTitle(findCollection.getTitle().getTitleName());
     }
+}
+
+interface UserSelfService {
+    User saveUser(UserAccountDTO userAccount);
 }
