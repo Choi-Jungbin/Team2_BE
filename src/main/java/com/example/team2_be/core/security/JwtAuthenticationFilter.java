@@ -61,6 +61,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             log.info(authentication.toString());
             String key = JWT_TOKEN + id;
             Object storedToken = redisTemplate.opsForValue().get(key);
+            log.info("storedToken: " + storedToken);
 
             // 로그인 여부 체크
             if (Boolean.TRUE.equals(redisTemplate.hasKey(key)) && storedToken != null) {
